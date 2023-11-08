@@ -1,1 +1,16 @@
-ciao
+<h1 style="text-align: center;">Connection Test</h1>
+
+<li *ngIf="restApiConnected">Rest API: connected</li>
+<li *ngIf="wsConnected">AMQP: connected</li>
+
+<h3>Messages:</h3>
+<div>
+  <li *ngFor="let item of msgs; index as i;">
+    Msg: [
+    routingKey: {{ item.routingKey }},
+    exchange: {{ item.exchange }},
+    msg: {{ item.msg }}
+    ]
+  </li>
+</div>
+

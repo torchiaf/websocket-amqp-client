@@ -14,16 +14,25 @@ export class AppComponent {
 
   title = 'amqp-test';
   amqp = null;
-  textarea: any;
-  input: any;
+
+  wsConnected = false;
+  restApiConnected = false;
+  msgs: any[] = [];
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
 
-    this.http.get('http://localhost/monitor-operator/auth').subscribe(async (params: any) => {
+    this.http.get('http://localhost/api/auth').subscribe(async (params: any) => {
 
-      const { rabbitmqPath, rabbitmqUsername, rabbitmqPassword } = params;
+      this.restApiConnected = true;
+
+      const {
+        rabbitmqPath,
+        rabbitmqUsername,
+        rabbitmqPassword,
+        dataCollectorRoutingKey
+      } = params;
 
       const amqp = new amqLib.AMQPWebSocketClient(
         `ws://localhost/${ rabbitmqPath }`,
@@ -37,6 +46,8 @@ export class AppComponent {
         const conn = await amqp.connect()
         const ch = await conn.channel()
 
+        this.wsConnected = true;
+
         await ch.exchangeDeclare(
           "logs_topic", // name
           "topic",      // type
@@ -44,16 +55,26 @@ export class AppComponent {
 
         const q = await ch.queueDeclare();
 
-        await ch.queueBind(q.Name, "logs_topic", "pippo");
+        await ch.queueBind(q.Name, "logs_topic", dataCollectorRoutingKey);
 
-        ch.basicConsume(q.name, {noAck: true}, (msg: any) => {
-          console.log(msg)
+        ch.basicConsume(q.name, {noAck: true}, (v: any) => {
+          const msg = new TextDecoder().decode(v.body);
+          console.log(v);
+          this.msgs = [
+            ...this.msgs,
+            {
+              routingKey: v.routingKey,
+              exchange: v.exchange,
+              msg
+            }
+          ];
         })
 
         // const consumer = await q.subscribe({noAck: true}, (msg: any) => {
         //   console.log(msg)
         // })
       } catch (err) {
+        this.wsConnected = false;
         console.error("Error", err);
       }
     });
