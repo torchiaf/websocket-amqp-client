@@ -1,0 +1,7 @@
+{
+  "/monitor-operator/*": {
+      "target": "http://localhost",
+      "secure": false,
+      "logLevel": "debug"
+  }
+}
