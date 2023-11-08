@@ -21,7 +21,7 @@ export class AppComponent {
 
   ngOnInit() {
 
-    this.http.get('/monitor-operator/auth').subscribe(async (params: any) => {
+    this.http.get('http://localhost/monitor-operator/auth').subscribe(async (params: any) => {
 
       const { rabbitmqPath, rabbitmqUsername, rabbitmqPassword } = params;
 
