@@ -59,13 +59,17 @@ export class AppComponent {
 
         ch.basicConsume(q.name, {noAck: true}, (v: any) => {
           const msg = new TextDecoder().decode(v.body);
-          console.log(v);
+          const nodes = JSON.parse(msg) as { items: any[], metadata: any };
+
           this.msgs = [
             ...this.msgs,
             {
               routingKey: v.routingKey,
               exchange: v.exchange,
-              msg
+              msg: `[ ${nodes.items.reduce((acc, x) => ([
+                ...acc,
+                x.metadata.name
+              ]), [])} ]`,
             }
           ];
         })

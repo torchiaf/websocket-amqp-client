@@ -6,11 +6,11 @@
 <h3>Messages:</h3>
 <div>
   <li *ngFor="let item of msgs; index as i;">
-    Msg: [
+    Msg: ---
     routingKey: {{ item.routingKey }},
     exchange: {{ item.exchange }},
-    msg: {{ item.msg }}
-    ]
+    nodes: {{ item.msg }}
+    ---
   </li>
 </div>
 
