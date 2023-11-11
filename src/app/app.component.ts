@@ -19,9 +19,20 @@ export class AppComponent {
   restApiConnected = false;
   msgs: any[] = [];
 
+  rules: any;
+  nodes: any;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
+
+    this.http.get('http://localhost/api/rules').subscribe((rules: any) => {
+      this.rules = rules.Name;
+    });
+
+    this.http.get('http://localhost/api/nodes').subscribe((nodes: any) => {
+      this.nodes = nodes.items.map((i: any) => i.metadata.name);
+    });
 
     this.http.get('http://localhost/api/auth').subscribe(async (params: any) => {
 

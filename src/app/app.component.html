@@ -3,7 +3,14 @@
 <li *ngIf="restApiConnected">Rest API: connected</li>
 <li *ngIf="wsConnected">AMQP: connected</li>
 
-<h3>Messages:</h3>
+<h3>Rules:</h3>
+<li>[{{ rules }}]</li>
+
+<h3>Nodes:</h3>
+<li>[{{ nodes }}]</li>
+
+
+<h3>Publish/Subscribe messages:</h3>
 <div>
   <li *ngFor="let item of msgs; index as i;">
     Msg: ---
