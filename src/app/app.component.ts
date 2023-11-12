@@ -26,15 +26,15 @@ export class AppComponent {
 
   ngOnInit() {
 
-    this.http.get('http://localhost/api/rules').subscribe((rules: any) => {
+    this.http.get('http://localhost/api/v1/rules').subscribe((rules: any) => {
       this.rules = rules.Name;
     });
 
-    this.http.get('http://localhost/api/nodes').subscribe((nodes: any) => {
+    this.http.get('http://localhost/api/v1/nodes').subscribe((nodes: any) => {
       this.nodes = nodes.items.map((i: any) => i.metadata.name);
     });
 
-    this.http.get('http://localhost/api/auth').subscribe(async (params: any) => {
+    this.http.get('http://localhost/api/v1/auth').subscribe(async (params: any) => {
 
       this.restApiConnected = true;
 

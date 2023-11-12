@@ -1,23 +1,24 @@
-<h1 style="text-align: center;">Connection Test</h1>
+<h1 style="text-align: center;">Critik8s Test</h1>
 
+<h3>connections</h3>
 <li *ngIf="restApiConnected">Rest API: connected</li>
-<li *ngIf="wsConnected">AMQP: connected</li>
+<li *ngIf="wsConnected">WS: connected</li>
 
-<h3>Rules:</h3>
+<h3>monitor <--rest-api--> monitor-backend</h3>
 <li>[{{ rules }}]</li>
 
-<h3>Nodes:</h3>
+<h3>monitor <--rest-api--> monitor-backend <--amqp--> data-collector</h3>
 <li>[{{ nodes }}]</li>
 
 
-<h3>Publish/Subscribe messages:</h3>
+<h3>monitor <--ws--> data-collector, publish/subscribe</h3>
 <div>
   <li *ngFor="let item of msgs; index as i;">
-    Msg: ---
+    Msg: |
     routingKey: {{ item.routingKey }},
     exchange: {{ item.exchange }},
     nodes: {{ item.msg }}
-    ---
+    |
   </li>
 </div>
 
