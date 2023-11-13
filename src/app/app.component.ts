@@ -20,7 +20,7 @@ export class AppComponent {
   msgs: any[] = [];
 
   rules: any;
-  nodes: any;
+  pods: any;
 
   constructor(private http: HttpClient) {}
 
@@ -30,8 +30,8 @@ export class AppComponent {
       this.rules = rules.Name;
     });
 
-    this.http.get('http://localhost/api/v1/nodes').subscribe((nodes: any) => {
-      this.nodes = nodes.items.map((i: any) => i.metadata.name);
+    this.http.get('http://localhost/api/v1/pods').subscribe((pods: any) => {
+      this.pods = pods.items.map((i: any) => i.metadata.name);
     });
 
     this.http.get('http://localhost/api/v1/auth').subscribe(async (params: any) => {
